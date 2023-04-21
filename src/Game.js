@@ -102,7 +102,7 @@ export function valid_move(board, row, col, val) {
     return true;
 }
 
-export function solve(board) {
+export function solvable(board) {
     const empty = find_empty(board);
     if (empty === null) {
         return true;
@@ -111,7 +111,7 @@ export function solve(board) {
     for (let val = 1; val < 10; val++) {
         if (valid_move(board, row, col, val)) {
             board[row][col] = val;
-            if (solve(board)) {
+            if (solvable(board)) {
                 return true;
             }
             board[row][col] = 0;
@@ -120,45 +120,41 @@ export function solve(board) {
     return false;
 }
 
-export function generate_board(level) {
-    const board = new Array(9).fill(0).map(() => new Array(9).fill(0));
-    let clues = 0;
-    const rows = board.length;
-    const cols = board[0].length;
-    while (true) {
-        for (let row = 0; row < rows; row++) {
-            for (let col = 0; col < cols; col++) {
-                if (Math.random() >= 0.5) {
-                    board[row][col] = Math.floor(Math.random() * 9) + 1;
-                    if (valid_move(board, row, col, board[row][col])) {
-                        clues++;
-                        continue;
-                    } else {
-                        board[row][col] = 0;
-                    }
-                }
+export function shuffle(nums) {
+    let shuffled = [...nums];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
+export function fill_board(board) {
+    const empty = find_empty(board);
+    if (empty === null) {
+        return board;
+    }
+    const [row, col] = empty;
+    for (const val of shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9])) {
+        if (valid_move(board, row, col, val)) {
+            board[row][col] = val;
+            if (fill_board(board)) {
+                return board;
             }
-        }
-        const partialBoard = board.map(row => row.slice());
-        if (solve(board)) {
-            while (clues < level) {
-                const r = Math.floor(Math.random() * 9);
-                const c = Math.floor(Math.random() * 9);
-                if (partialBoard[r][c] === 0) {
-                    for (let val = 1; val < 10; val++) {
-                        partialBoard[r][c] = val;
-                        if (valid_move(partialBoard, r, c, val)) {
-                            clues++;
-                            break;
-                        } else {
-                            partialBoard[r][c] = 0;
-                        }
-                    }
-                }
-            }
-            return partialBoard;
+            board[row][col] = 0;
         }
     }
+    return false;
+}
+
+export function make_holes(board, level) {
+    
+}
+
+export function generate_board(level) {
+    const board = new Array(9).fill(0).map(() => new Array(9).fill(0));
+    fill_board(board);
+    return board;
 }
 
 /*
@@ -169,7 +165,3 @@ export function generate_board(level) {
     3. set board state to this new partially filled board.
 💡
 */
-
-export function fill_board(board) {
-    
-}
