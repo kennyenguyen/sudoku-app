@@ -148,12 +148,33 @@ export function fill_board(board) {
 }
 
 export function make_holes(board, level) {
-    
+    const holes = 81 - level;
+    const removed = [];
+    while (removed.length < holes) {
+        const position = Math.floor(Math.random() * 81);
+        const random_row = Math.floor(position / 9);
+        const random_col = position % 9;
+        if (board[random_row][random_col] === 0) {
+            continue;
+        }
+        removed.push({
+            row: random_row,
+            col: random_col,
+            val: board[random_row][random_col]
+        });
+        board[random_row][random_col] = 0;
+        const curr_board = board.map(row => row.slice());
+        if (!solvable(curr_board)) {
+            board[random_row][random_col] = removed.pop().val;
+        }
+    }
+    return board;
 }
 
 export function generate_board(level) {
     const board = new Array(9).fill(0).map(() => new Array(9).fill(0));
     fill_board(board);
+    make_holes(board, level);
     return board;
 }
 
