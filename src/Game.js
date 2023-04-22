@@ -174,10 +174,14 @@ export function make_holes(board, level) {
 }
 
 export function generate_board(level) {
-    const board = new Array(9).fill(0).map(() => new Array(9).fill(0));
-    fill_board(board);
-    let [removed, new_board] = make_holes(board, level);
-    return [removed, new_board];
+    while (true) {
+        const board = new Array(9).fill(0).map(() => new Array(9).fill(0));
+        fill_board(board);
+        const [removed, new_board] = make_holes(board, level);
+        if (!has_multiple_solutions(new_board)) {
+            return [removed, new_board];
+        }
+    }
 }
 
 export function find_all_empty(board) {
@@ -194,7 +198,7 @@ export function find_all_empty(board) {
 
 export function find_empty_from_list(board, empty_cells) {
     for (const position of empty_cells) {
-        [row, col] = position;
+        const [row, col] = position;
         if (board[row][col] === 0) {
             return [row, col];
         }
@@ -224,10 +228,10 @@ export function has_multiple_solutions(board) {
     const solutions = [];
     const empty_cells = find_all_empty(board);
     for (let i = 0; i < empty_cells.length; i++) {
-        curr_empty_cells = [...empty_cells];
+        const curr_empty_cells = [...empty_cells];
         const start = curr_empty_cells.splice(i, 1);
         curr_empty_cells.unshift(start[0]);
-        solution = fill_board_from_list(board.map(row => row.slice()), curr_empty_cells);
+        const solution = fill_board_from_list(board.map(row => row.slice()), curr_empty_cells);
         solutions.push(solution.join());
         if (Array.from(new Set(solutions)).length > 1) {
             return true;
