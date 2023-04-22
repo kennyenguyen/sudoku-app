@@ -15,4 +15,5 @@ export default function Controls({ onGenerate }) {
             <DifficultyControl onGenerate={ onGenerate } level={ difficulty.hard } />
         </div>
     );
+    
 }

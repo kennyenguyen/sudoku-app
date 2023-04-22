@@ -1,4 +1,5 @@
 export default function Square({ value, onSquareClick, selection }) {
+
     return (
         <>
             <button className={ value === selection ? "square number-selected" : "square" } type="button" onClick={ onSquareClick }>
@@ -6,4 +7,5 @@ export default function Square({ value, onSquareClick, selection }) {
             </button>
         </>
     );
+    
 }

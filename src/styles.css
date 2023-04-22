@@ -57,4 +57,14 @@ tr:nth-of-type(6) td {
 .center-div {
     width: fit-content;
     margin: auto;
+    padding: 5px;
+}
+
+.difficulty-btn {
+    padding: 6px;
+    margin: auto;
+    width: 150px;
+    display: block;
+    cursor: pointer;
+    text-align: center;
 }

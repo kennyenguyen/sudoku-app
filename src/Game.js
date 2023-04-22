@@ -61,8 +61,10 @@ export default function Game() {
             <Controls onGenerate={ handleMove } />
         </div>
     );
+
 }
 
+// ============================================================================
 
 export function find_empty(board) {
     const rows = board.length;
@@ -168,21 +170,68 @@ export function make_holes(board, level) {
             board[random_row][random_col] = removed.pop().val;
         }
     }
-    return board;
+    return [removed, board];
 }
 
 export function generate_board(level) {
     const board = new Array(9).fill(0).map(() => new Array(9).fill(0));
     fill_board(board);
-    make_holes(board, level);
-    return board;
+    let [removed, new_board] = make_holes(board, level);
+    return [removed, new_board];
 }
 
-/*
-💡
-    1. get fully completed board, 81 values.
-    2. based on difficulty, randomly erase x number of cells on the board,
-        where x = 81 - 38 = 43 for easy mode, for example.
-    3. set board state to this new partially filled board.
-💡
-*/
+export function find_all_empty(board) {
+    const empty_cells = [];
+    for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+            if (board[row][col] === 0) {
+                empty_cells.push([row, col]);
+            }
+        }
+    }
+    return empty_cells;
+}
+
+export function find_empty_from_list(board, empty_cells) {
+    for (const position of empty_cells) {
+        [row, col] = position;
+        if (board[row][col] === 0) {
+            return [row, col];
+        }
+    }
+    return false;
+}
+
+export function fill_board_from_list(board, empty_cells) {
+    const empty_cell = find_empty_from_list(board, empty_cells);
+    if (!empty_cell) {
+        return board;
+    }
+    const [row, col] = empty_cell;
+    for (const val of shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9])) {
+        if (valid_move(board, row, col, val)) {
+            board[row][col] = val;
+            if (fill_board_from_list(board, empty_cells)) {
+                return board;
+            }
+            board[row][col] = 0;
+        }
+    }
+    return false;
+}
+
+export function has_multiple_solutions(board) {
+    const solutions = [];
+    const empty_cells = find_all_empty(board);
+    for (let i = 0; i < empty_cells.length; i++) {
+        curr_empty_cells = [...empty_cells];
+        const start = curr_empty_cells.splice(i, 1);
+        curr_empty_cells.unshift(start[0]);
+        solution = fill_board_from_list(board.map(row => row.slice()), curr_empty_cells);
+        solutions.push(solution.join());
+        if (Array.from(new Set(solutions)).length > 1) {
+            return true;
+        }
+    }
+    return false;
+}

@@ -119,4 +119,5 @@ export default function Board({ board, selection, onMove }) {
             </table>
         </>
     );
+    
 }
