@@ -246,15 +246,6 @@ export function generate_board(level) {
     } catch (error) {
         return generate_board(level);
     }
-
-    // while (true) {
-    //     const board = new Array(9).fill(0).map(() => new Array(9).fill(0));
-    //     fill_board(board);
-    //     const [removed, new_board] = make_holes(board, level);
-    //     if (!has_multiple_solutions(new_board)) {
-    //         return [removed, new_board];
-    //     }
-    // }
 }
 
 export function find_all_empty(board) {
