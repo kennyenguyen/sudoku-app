@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import Board from "./Board";
-import Controls from "./Controls";
+import Difficulty from "./Difficulty";
 import NumberDisplay from "./NumberDisplay";
+import Controls from "./Controls";
 
 /*
 easy = 38 clues given
@@ -20,16 +21,33 @@ TODO:
 
 export default function Game() {
 
-    // TODO: create history useState to enable undo functionality
+    // TODO: create history useState to enable undo functionality (!!)
+
+    /* 
+    need to use setBoard on the previous move's board state, "rewind" 1 step
+    */
+
     const [board, setBoard] = useState(Array(9).fill(0).map(() => new Array(9).fill(0)));
     const [selected, setSelected] = useState(1);
+    const [history, setHistory] = useState([Array(9).fill(0).map(() => new Array(9).fill(0))])
 
     function handleMove(newBoard) {
+        const nextHistory = [...history, newBoard];
+        setHistory(nextHistory);
         setBoard(newBoard);
     }
 
     function handleSelect(num) {
         setSelected(num);
+    }
+
+    function handleUndo() {
+        if (history.length > 1) {
+            const nextHistory = history.slice(0, history.length - 1);
+            const prevBoard = history[history.length - 2];
+            setHistory(nextHistory);
+            setBoard(prevBoard);
+        }
     }
 
     useEffect(() => {
@@ -46,6 +64,8 @@ export default function Game() {
             } else if (e.key === 'a' || e.key === 'A' || e.key === 'ArrowLeft') {
                 const num = ((selected + 7) % 9) + 1;
                 setSelected(num);
+            } else if (e.key === 'Backspace') {
+                console.log('backspace');
             }
         }
         document.addEventListener("keydown", handleKeyDown);
@@ -58,7 +78,14 @@ export default function Game() {
         <div tabIndex="0" className="center-div">
             <Board board={ board } selection={ selected } onMove={ handleMove } />
             <NumberDisplay selection={ selected } onSelect={ handleSelect } />
-            <Controls onGenerate={ handleMove } />
+            <div className="controls-container">
+                <div className="controls-left">
+                    <Difficulty onGenerate={ handleMove } />
+                </div>
+                <div className="controls-right">
+                    <Controls onUndo={ handleUndo } />
+                </div>
+            </div>
         </div>
     );
 
