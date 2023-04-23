@@ -225,7 +225,7 @@ export function make_holes(board, level) {
         });
         board[random_row][random_col] = 0;
         const curr_board = board.map(row => row.slice());
-        if (!solvable(curr_board)) {
+        if (!solvable(curr_board) || has_multiple_solutions(curr_board)) {
             board[random_row][random_col] = removed.pop().val;
         }
     }

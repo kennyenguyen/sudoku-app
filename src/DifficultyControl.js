@@ -3,7 +3,7 @@ import { initial_counter } from "./Game";
 
 export default function DifficultyControl({ onGenerate, onInitialize, level }) {
 
-    const label = level === 40 ? 'Easy' : level === 35 ? 'Medium' : 'Hard';
+    const label = level === 40 ? 'Easy' : level === 36 ? 'Medium' : 'Hard';
 
     function handleGenerate(level) {
         const [removed, board, solvedBoard] = generate_board(level);

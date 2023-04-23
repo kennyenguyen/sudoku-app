@@ -4,8 +4,8 @@ export default function Difficulty({ onGenerate, onInitialize }) {
 
     const difficulty = {
         easy: 40,
-        medium: 35,
-        hard: 30
+        medium: 36,
+        hard: 32
     };
 
     return (
