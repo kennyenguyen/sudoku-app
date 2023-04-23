@@ -21,15 +21,12 @@ TODO:
 
 export default function Game() {
 
-    // TODO: create history useState to enable undo functionality (!!)
-
-    /* 
-    need to use setBoard on the previous move's board state, "rewind" 1 step
-    */
-
     const [board, setBoard] = useState(Array(9).fill(0).map(() => new Array(9).fill(0)));
     const [selected, setSelected] = useState(1);
-    const [history, setHistory] = useState([Array(9).fill(0).map(() => new Array(9).fill(0))])
+    const [history, setHistory] = useState([Array(9).fill(0).map(() => new Array(9).fill(0))]);
+    const [counter, setCounter] = useState(new Map([[1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0]]));
+    const [available, setAvailable] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    const [placements, setPlacements] = useState([]);
 
     function handleMove(newBoard) {
         const nextHistory = [...history, newBoard];
@@ -42,7 +39,7 @@ export default function Game() {
     }
 
     function handleUndo() {
-        if (history.length > 1) {
+        if (history.length > 2) {
             const nextHistory = history.slice(0, history.length - 1);
             const prevBoard = history[history.length - 2];
             setHistory(nextHistory);
@@ -50,9 +47,16 @@ export default function Game() {
         }
     }
 
+    function handleCounter(newCounter) {
+        setCounter(newCounter);
+    }
+
+    function handlePlacements(newPlacements) {
+        setPlacements(newPlacements);
+    }
+
     useEffect(() => {
         function handleKeyDown(e) {
-            console.log(e.key);
             if (!isNaN(e.key)) {
                 const num = Number(e.key);
                 if (1 <= num && num <= 9) {
@@ -76,14 +80,28 @@ export default function Game() {
 
     return (
         <div tabIndex="0" className="center-div">
-            <Board board={ board } selection={ selected } onMove={ handleMove } />
+            <Board 
+                board={ board } 
+                selection={ selected } 
+                onMove={ handleMove } 
+                counter={ counter } 
+                onUpdateCounter={ handleCounter } 
+                placements={ placements } 
+                onUpdatePlacements={ handlePlacements } 
+            />
             <NumberDisplay selection={ selected } onSelect={ handleSelect } />
             <div className="controls-container">
                 <div className="controls-left">
-                    <Difficulty onGenerate={ handleMove } />
+                    <Difficulty onGenerate={ handleMove } onInitialize={ handleCounter } />
                 </div>
                 <div className="controls-right">
-                    <Controls onUndo={ handleUndo } />
+                    <Controls 
+                        onUndo={ handleUndo } 
+                        counter={ counter } 
+                        onUpdateCounter={ handleCounter } 
+                        placements={ placements } 
+                        onUpdatePlacements={ handlePlacements } 
+                    />
                 </div>
             </div>
         </div>
@@ -265,4 +283,29 @@ export function has_multiple_solutions(board) {
         }
     }
     return false;
+}
+
+export function initial_counter(board) {
+    const counter = new Map([
+        [1, 0],
+        [2, 0],
+        [3, 0],
+        [4, 0],
+        [5, 0],
+        [6, 0],
+        [7, 0],
+        [8, 0],
+        [9, 0]
+    ]);
+    const rows = board.length;
+    const cols = board[0].length;
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            if (board[row][col] !== 0) {
+                const val = board[row][col];
+                counter.set(val, counter.get(val) + 1);
+            }
+        }
+    }
+    return counter;
 }

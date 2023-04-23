@@ -1,11 +1,14 @@
 import { generate_board } from "./Game";
+import { initial_counter } from "./Game";
 
-export default function DifficultyControl({ onGenerate, level }) {
+export default function DifficultyControl({ onGenerate, onInitialize, level }) {
 
     const label = level === 38 ? 'Easy' : level === 30 ? 'Medium' : 'Hard';
 
     function handleGenerate(level) {
         const [removed, board] = generate_board(level);
+        const counter = initial_counter(board);
+        onInitialize(counter);
         onGenerate(board);
     }
 

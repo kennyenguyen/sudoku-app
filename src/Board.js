@@ -1,14 +1,19 @@
 import Square from './Square';
 
-export default function Board({ board, selection, onMove }) {
+export default function Board({ board, selection, onMove, counter, onUpdateCounter, placements, onUpdatePlacements }) {
 
     function handleClick(row, col, val) {
         // check if game over, i.e. all squares filled. if game over, return
-
         if (board[row][col] === 0) {
             const newBoard = board.map(row => row.slice());
             newBoard[row][col] = val;
+            const newCounter = new Map(counter);
+            newCounter.set(val, newCounter.get(val) + 1);
+            const newPlacements = [...placements];
+            newPlacements.push([val, row, col]);
             onMove(newBoard);
+            onUpdateCounter(newCounter);
+            onUpdatePlacements(newPlacements);
         }
     }
 
