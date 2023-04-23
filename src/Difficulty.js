@@ -3,10 +3,10 @@ import DifficultyControl from "./DifficultyControl";
 export default function Difficulty({ onGenerate, onInitialize }) {
 
     const difficulty = {
-        easy: 38,
-        medium: 30,
-        hard: 26
-    }
+        easy: 40,
+        medium: 35,
+        hard: 30
+    };
 
     return (
         <div className="center-div">

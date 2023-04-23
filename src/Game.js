@@ -113,6 +113,17 @@ export default function Game() {
 
 // ============================================================================
 
+let count = 0;
+
+export function shuffle(nums) {
+    let shuffled = [...nums];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
 export function find_empty(board) {
     const rows = board.length;
     const cols = board[0].length;
@@ -169,15 +180,6 @@ export function solvable(board) {
     return false;
 }
 
-export function shuffle(nums) {
-    let shuffled = [...nums];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-}
-
 export function fill_board(board) {
     const empty = find_empty(board);
     if (empty === null) {
@@ -185,6 +187,10 @@ export function fill_board(board) {
     }
     const [row, col] = empty;
     for (const val of shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9])) {
+        count++;
+        if (count > 20_000_000) {
+            throw new Error('Recursion Timeout');
+        }
         if (valid_move(board, row, col, val)) {
             board[row][col] = val;
             if (fill_board(board)) {
@@ -194,6 +200,12 @@ export function fill_board(board) {
         }
     }
     return false;
+}
+
+export function new_solved_board() {
+    const newBoard = Array(9).fill(0).map(() => new Array(9).fill(0));
+    fill_board(newBoard);
+    return newBoard;
 }
 
 export function make_holes(board, level) {
@@ -221,14 +233,28 @@ export function make_holes(board, level) {
 }
 
 export function generate_board(level) {
-    while (true) {
-        const board = new Array(9).fill(0).map(() => new Array(9).fill(0));
-        fill_board(board);
-        const [removed, new_board] = make_holes(board, level);
-        if (!has_multiple_solutions(new_board)) {
-            return [removed, new_board];
+    try {
+        count = 0;
+        for (let i = 0; i < 10_000; i++) {
+            const solvedBoard = new_solved_board();
+            const clone = solvedBoard.map(row => row.slice());
+            const [removed, board] = make_holes(clone, level);
+            if (!has_multiple_solutions(board)) {
+                return [removed, board, solvedBoard];
+            }
         }
+    } catch (error) {
+        return generate_board(level);
     }
+
+    // while (true) {
+    //     const board = new Array(9).fill(0).map(() => new Array(9).fill(0));
+    //     fill_board(board);
+    //     const [removed, new_board] = make_holes(board, level);
+    //     if (!has_multiple_solutions(new_board)) {
+    //         return [removed, new_board];
+    //     }
+    // }
 }
 
 export function find_all_empty(board) {

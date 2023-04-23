@@ -4,7 +4,7 @@ export default function Board({ board, selection, onMove, counter, onUpdateCount
 
     function handleClick(row, col, val) {
         // check if game over, i.e. all squares filled. if game over, return
-        if (board[row][col] === 0) {
+        if (board[row][col] === 0 && counter.get(val) < 9) {
             const newBoard = board.map(row => row.slice());
             newBoard[row][col] = val;
             const newCounter = new Map(counter);
