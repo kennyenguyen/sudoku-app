@@ -34,6 +34,8 @@ export default function Game() {
         setBoard(newBoard);
     }
 
+    // TODO: need separate handleGenerate function to fix the "undo problem"
+
     function handleSelect(num) {
         setSelected(num);
     }
@@ -59,7 +61,7 @@ export default function Game() {
         function handleKeyDown(e) {
             if (!isNaN(e.key)) {
                 const num = Number(e.key);
-                if (1 <= num && num <= 9) {
+                if (1 <= num && num <= 9 && counter.get(num) !== 9) {
                     setSelected(num);
                 }
             } else if (e.key === 'd' || e.key === 'D' || e.key === 'ArrowRight') {
@@ -69,7 +71,7 @@ export default function Game() {
                 const num = ((selected + 7) % 9) + 1;
                 setSelected(num);
             } else if (e.key === 'Backspace') {
-                console.log('backspace');
+                console.log("Undo doesn't work here :(")
             }
         }
         document.addEventListener("keydown", handleKeyDown);
@@ -89,7 +91,7 @@ export default function Game() {
                 placements={ placements } 
                 onUpdatePlacements={ handlePlacements } 
             />
-            <NumberDisplay selection={ selected } onSelect={ handleSelect } />
+            <NumberDisplay selection={ selected } onSelect={ handleSelect } counter={ counter } />
             <div className="controls-container">
                 <div className="controls-left">
                     <Difficulty onGenerate={ handleMove } onInitialize={ handleCounter } />

@@ -98,3 +98,7 @@ tr:nth-of-type(6) td {
     margin-left: auto;
     padding: 0 12px;
 }
+
+.invisible {
+    visibility: hidden;
+}
