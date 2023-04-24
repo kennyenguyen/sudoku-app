@@ -36,7 +36,12 @@ export default function Game() {
         setBoard(newBoard);
     }
 
-    // TODO: need separate handleGenerate function to fix the "undo problem"
+    function handleGenerate(newBoard) {
+        const nextHistory = [Array(9).fill(0).map(() => new Array(9).fill(0))];
+        nextHistory.push(newBoard);
+        setHistory(nextHistory);
+        setBoard(newBoard);
+    }
 
     function handleSelect(num) {
         setSelected(num);
@@ -110,7 +115,7 @@ export default function Game() {
             <NumberDisplay selection={ selected } onSelect={ handleSelect } counter={ counter } />
             <div className="controls-container">
                 <div className="controls-left">
-                    <Difficulty onGenerate={ handleMove } onInitialize={ handleCounter } />
+                    <Difficulty onGenerate={ handleGenerate } onInitialize={ handleCounter } />
                 </div>
                 <div className="controls-right">
                     <Controls onUndo={ handleUndo } />
