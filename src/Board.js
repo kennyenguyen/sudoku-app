@@ -3,8 +3,9 @@ import Square from './Square';
 export default function Board({ board, selection, counter, placements, onMove, onSelect, onUpdateCounter, onUpdatePlacements }) {
 
     function handleClick(row, col, val) {
-        // check if game over, i.e. all squares filled. if game over, return
+        // TODO: check if game over, i.e. all squares filled. if game over, return
         if (board[row][col] === 0 && counter.get(val) < 9) {
+            // placing the final selection puts the below block in an infinite loop (URGENT)
             if (counter.get(val) === 8) {
                 let num = (selection % 9) + 1;
                 while (counter.get(num) === 9) {

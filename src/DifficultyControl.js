@@ -1,5 +1,5 @@
-import { generate_board } from "./Game";
-import { initial_counter } from "./Game";
+import { generate_board } from "./helper";
+import { initial_counter } from "./helper";
 
 export default function DifficultyControl({ onGenerate, onInitialize, level }) {
 
