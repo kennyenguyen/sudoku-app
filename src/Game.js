@@ -113,13 +113,7 @@ export default function Game() {
                     <Difficulty onGenerate={ handleMove } onInitialize={ handleCounter } />
                 </div>
                 <div className="controls-right">
-                    <Controls 
-                        onUndo={ handleUndo } 
-                        counter={ counter } 
-                        onUpdateCounter={ handleCounter } 
-                        placements={ placements } 
-                        onUpdatePlacements={ handlePlacements } 
-                    />
+                    <Controls onUndo={ handleUndo } />
                 </div>
             </div>
         </div>

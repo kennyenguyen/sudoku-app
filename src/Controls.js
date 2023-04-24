@@ -1,4 +1,4 @@
-export default function Controls({ onUndo, counter, onUpdateCounter, placements, onUpdatePlacements }) {
+export default function Controls({ onUndo }) {
 
     function handleUndo() {
         onUndo();
