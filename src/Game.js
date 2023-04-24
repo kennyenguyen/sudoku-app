@@ -28,6 +28,8 @@ export default function Game() {
     const [available, setAvailable] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
     const [placements, setPlacements] = useState([]);
 
+    // TODO: after click number placement, check if it's the 9th instance of the digit. if it is, change selected to the next available value.
+
     function handleMove(newBoard) {
         const nextHistory = [...history, newBoard];
         setHistory(nextHistory);
@@ -42,6 +44,14 @@ export default function Game() {
 
     function handleUndo() {
         if (history.length > 2) {
+            if (placements !== undefined && placements.length !== 0) {
+                const newPlacements = [...placements];
+                const [val, row, col] = newPlacements.pop();
+                const newCounter = new Map(counter);
+                newCounter.set(val, newCounter.get(val) - 1);
+                setPlacements(newPlacements);
+                setCounter(newCounter);
+            }
             const nextHistory = history.slice(0, history.length - 1);
             const prevBoard = history[history.length - 2];
             setHistory(nextHistory);
@@ -65,20 +75,26 @@ export default function Game() {
                     setSelected(num);
                 }
             } else if (e.key === 'd' || e.key === 'D' || e.key === 'ArrowRight') {
-                const num = (selected % 9) + 1;
+                let num = (selected % 9) + 1;
+                while (counter.get(num) === 9) {
+                    num = (num % 9) + 1;
+                }
                 setSelected(num);
             } else if (e.key === 'a' || e.key === 'A' || e.key === 'ArrowLeft') {
-                const num = ((selected + 7) % 9) + 1;
+                let num = ((selected + 7) % 9) + 1;
+                while (counter.get(num) === 9) {
+                    num = ((num + 7) % 9) + 1;
+                }
                 setSelected(num);
             } else if (e.key === 'Backspace') {
-                console.log("Undo doesn't work here :(")
+                handleUndo();
             }
         }
         document.addEventListener("keydown", handleKeyDown);
         return function cleanup() {
             document.removeEventListener("keydown", handleKeyDown);
         };
-    }, [selected]);
+    }, [selected, history, board, counter, placements]);
 
     return (
         <div tabIndex="0" className="center-div">
