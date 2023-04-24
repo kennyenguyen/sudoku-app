@@ -16,7 +16,7 @@ nightmare = 25 clues given (??)
 TODO:
 - style incorrect placements as red number
 - create "game over" notification when board is filled correctly
-- remove option to select a number that has been placed 9 times, i.e. 9 placements max for each number
+- add timer
 */
 
 export default function Game() {
@@ -27,8 +27,6 @@ export default function Game() {
     const [counter, setCounter] = useState(new Map([[1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0]]));
     const [available, setAvailable] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
     const [placements, setPlacements] = useState([]);
-
-    // TODO: after click number placement, check if it's the 9th instance of the digit. if it is, change selected to the next available value.
 
     function handleMove(newBoard) {
         const nextHistory = [...history, newBoard];
@@ -106,10 +104,11 @@ export default function Game() {
             <Board 
                 board={ board } 
                 selection={ selected } 
-                onMove={ handleMove } 
                 counter={ counter } 
-                onUpdateCounter={ handleCounter } 
                 placements={ placements } 
+                onMove={ handleMove } 
+                onSelect={ handleSelect } 
+                onUpdateCounter={ handleCounter } 
                 onUpdatePlacements={ handlePlacements } 
             />
             <NumberDisplay selection={ selected } onSelect={ handleSelect } counter={ counter } />

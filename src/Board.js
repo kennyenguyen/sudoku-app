@@ -1,10 +1,17 @@
 import Square from './Square';
 
-export default function Board({ board, selection, onMove, counter, onUpdateCounter, placements, onUpdatePlacements }) {
+export default function Board({ board, selection, counter, placements, onMove, onSelect, onUpdateCounter, onUpdatePlacements }) {
 
     function handleClick(row, col, val) {
         // check if game over, i.e. all squares filled. if game over, return
         if (board[row][col] === 0 && counter.get(val) < 9) {
+            if (counter.get(val) === 8) {
+                let num = (selection % 9) + 1;
+                while (counter.get(num) === 9) {
+                    num = (num % 9) + 1;
+                }
+                onSelect(num);
+            }
             const newBoard = board.map(row => row.slice());
             newBoard[row][col] = val;
             const newCounter = new Map(counter);
