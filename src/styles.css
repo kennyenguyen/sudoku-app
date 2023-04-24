@@ -102,3 +102,15 @@ tr:nth-of-type(6) td {
 .invisible {
     visibility: hidden;
 }
+
+.given {
+    color: black;
+}
+
+.correct {
+    color: rgb(66, 135, 245);
+}
+
+.incorrect {
+    color: rgb(245, 72, 66);
+}

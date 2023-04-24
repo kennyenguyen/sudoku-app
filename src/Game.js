@@ -26,6 +26,8 @@ export default function Game() {
     const [history, setHistory] = useState([Array(9).fill(0).map(() => new Array(9).fill(0))]);
     const [counter, setCounter] = useState(new Map([[1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0]]));
     const [placements, setPlacements] = useState([]);
+    const [solvedBoard, setSolvedBoard] = useState(Array(9).fill(0).map(() => new Array(9).fill(0)));
+    const [startingBoard, setStartingBoard] = useState(Array(9).fill(0).map(() => new Array(9).fill(0)));
 
     function handleMove(newBoard) {
         const nextHistory = [...history, newBoard];
@@ -69,6 +71,14 @@ export default function Game() {
         setPlacements(newPlacements);
     }
 
+    function handleSolution(newBoard) {
+        setSolvedBoard(newBoard);
+    }
+
+    function handleStarting(newBoard) {
+        setStartingBoard(newBoard);
+    }
+
     useEffect(() => {
         function handleKeyDown(e) {
             if (!isNaN(e.key)) {
@@ -102,6 +112,8 @@ export default function Game() {
         <div tabIndex="0" className="center-div">
             <Board 
                 board={ board } 
+                solvedBoard={ solvedBoard } 
+                startingBoard={ startingBoard } 
                 selection={ selected } 
                 counter={ counter } 
                 placements={ placements } 
@@ -113,7 +125,12 @@ export default function Game() {
             <NumberDisplay selection={ selected } onSelect={ handleSelect } counter={ counter } />
             <div className="controls-container">
                 <div className="controls-left">
-                    <Difficulty onGenerate={ handleGenerate } onInitialize={ handleCounter } />
+                    <Difficulty 
+                        onGenerate={ handleGenerate } 
+                        onInitialize={ handleCounter } 
+                        onUpdateSolution={ handleSolution } 
+                        onUpdateStarting={ handleStarting } 
+                    />
                 </div>
                 <div className="controls-right">
                     <Controls onUndo={ handleUndo } />

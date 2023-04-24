@@ -1,7 +1,7 @@
 import { generate_board } from "./helper";
 import { initial_counter } from "./helper";
 
-export default function DifficultyControl({ onGenerate, onInitialize, level }) {
+export default function DifficultyControl({ level, onGenerate, onInitialize, onUpdateSolution, onUpdateStarting }) {
 
     const label = level === 40 ? 'Easy' : level === 36 ? 'Medium' : 'Hard';
 
@@ -10,6 +10,8 @@ export default function DifficultyControl({ onGenerate, onInitialize, level }) {
         const counter = initial_counter(board);
         onInitialize(counter);
         onGenerate(board);
+        onUpdateSolution(solvedBoard);
+        onUpdateStarting(board);
     }
 
     return (

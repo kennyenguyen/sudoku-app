@@ -1,6 +1,6 @@
 import DifficultyControl from "./DifficultyControl";
 
-export default function Difficulty({ onGenerate, onInitialize }) {
+export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution, onUpdateStarting }) {
 
     const difficulty = {
         easy: 40,
@@ -10,9 +10,27 @@ export default function Difficulty({ onGenerate, onInitialize }) {
 
     return (
         <div className="center-div">
-            <DifficultyControl onGenerate={ onGenerate } onInitialize={ onInitialize } level={ difficulty.easy } />
-            <DifficultyControl onGenerate={ onGenerate } onInitialize={ onInitialize } level={ difficulty.medium } />
-            <DifficultyControl onGenerate={ onGenerate } onInitialize={ onInitialize } level={ difficulty.hard } />
+            <DifficultyControl 
+                level={ difficulty.easy } 
+                onGenerate={ onGenerate } 
+                onInitialize={ onInitialize } 
+                onUpdateSolution={ onUpdateSolution } 
+                onUpdateStarting={ onUpdateStarting } 
+            />
+            <DifficultyControl 
+                level={ difficulty.medium } 
+                onGenerate={ onGenerate } 
+                onInitialize={ onInitialize } 
+                onUpdateSolution={ onUpdateSolution } 
+                onUpdateStarting={ onUpdateStarting } 
+            />
+            <DifficultyControl 
+                level={ difficulty.hard } 
+                onGenerate={ onGenerate } 
+                onInitialize={ onInitialize } 
+                onUpdateSolution={ onUpdateSolution } 
+                onUpdateStarting={ onUpdateStarting } 
+            />
         </div>
     );
     
