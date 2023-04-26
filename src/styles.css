@@ -4,7 +4,7 @@
 }
 
 body {
-    background-color: lightslategray;
+    background-color: lightslategray !important;
 }
 
 .square {
@@ -44,8 +44,7 @@ li.number-display {
 }
 
 .number-display-list {
-    padding-left: 12px;
-    padding-right: 12px;
+    padding: 12px;
 }
 
 .number-selected {
