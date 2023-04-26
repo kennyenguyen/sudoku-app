@@ -213,3 +213,16 @@ export function initial_counter(board) {
     }
     return counter;
 }
+
+export function completed_board(board, solvedBoard) {
+    const rows = board.length;
+    const cols = board[0].length;
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            if (board[row][col] !== solvedBoard[row][col]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}

@@ -1,23 +1,28 @@
 import Square from './Square';
+import { completed_board } from './helper';
 
 export default function Board({ board, solvedBoard, startingBoard, selection, counter, placements, onMove, onSelect, onUpdateCounter, onUpdatePlacements }) {
 
     function handleClick(row, col, val) {
         // TODO: check if game over, i.e. all squares filled. if game over, return
         if (board[row][col] === 0 && counter.get(val) < 9) {
-            let num_cells = 0
+            let num_cells = 0;
             for (let key = 1; key < 10; key++) {
                 num_cells += counter.get(key);
             }
-            if (counter.get(val) === 8 && num_cells <= 80) {
+            if (counter.get(val) === 8 && num_cells < 80) {
                 let num = (selection % 9) + 1;
                 while (counter.get(num) === 9) {
                     num = (num % 9) + 1;
+                    console.log(num);
                 }
                 onSelect(num);
             }
             const newBoard = board.map(row => row.slice());
             newBoard[row][col] = val;
+            if (num_cells === 80 && completed_board(newBoard, solvedBoard)) {
+                // pass
+            }
             const newCounter = new Map(counter);
             newCounter.set(val, newCounter.get(val) + 1);
             const newPlacements = [...placements];
@@ -135,5 +140,5 @@ export default function Board({ board, solvedBoard, startingBoard, selection, co
             </table>
         </>
     );
-    
+
 }
