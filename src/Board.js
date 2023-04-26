@@ -1,10 +1,9 @@
 import Square from './Square';
 import { completed_board } from './helper';
 
-export default function Board({ board, solvedBoard, startingBoard, selection, counter, placements, onMove, onSelect, onUpdateCounter, onUpdatePlacements }) {
+export default function Board({ board, solvedBoard, startingBoard, selection, counter, placements, onMove, onSelect, onUpdateCounter, onUpdatePlacements, onShow }) {
 
     function handleClick(row, col, val) {
-        // TODO: check if game over, i.e. all squares filled. if game over, return
         if (board[row][col] === 0 && counter.get(val) < 9) {
             let num_cells = 0;
             for (let key = 1; key < 10; key++) {
@@ -21,7 +20,7 @@ export default function Board({ board, solvedBoard, startingBoard, selection, co
             const newBoard = board.map(row => row.slice());
             newBoard[row][col] = val;
             if (num_cells === 80 && completed_board(newBoard, solvedBoard)) {
-                // pass
+                onShow();
             }
             const newCounter = new Map(counter);
             newCounter.set(val, newCounter.get(val) + 1);

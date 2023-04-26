@@ -78,18 +78,6 @@ tr:nth-of-type(6) td {
     text-align: center;
 }
 
-.undo-btn {
-    width: 75px;
-    height: 45px;
-    outline: none;
-    padding: 6px;
-    margin: auto;
-    display: block;
-    cursor: pointer;
-    text-align: center;
-    font-size: 1.1em;
-}
-
 .controls-container {
     display: grid;
     grid-template-columns: auto auto;

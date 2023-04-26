@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import Modal from 'react-bootstrap/Modal';
 import Board from "./Board";
 import Difficulty from "./Difficulty";
+import DifficultyControl from "./DifficultyControl";
 import NumberDisplay from "./NumberDisplay";
 import Controls from "./Controls";
 
@@ -28,6 +30,13 @@ export default function Game() {
     const [placements, setPlacements] = useState([]);
     const [solvedBoard, setSolvedBoard] = useState(Array(9).fill(0).map(() => new Array(9).fill(0)));
     const [startingBoard, setStartingBoard] = useState(Array(9).fill(0).map(() => new Array(9).fill(0)));
+    const [show, setShow] = useState(false);
+
+    const difficulty = {
+        easy: 40,
+        medium: 36,
+        hard: 32
+    };
 
     function handleMove(newBoard) {
         const nextHistory = [...history, newBoard];
@@ -79,6 +88,14 @@ export default function Game() {
         setStartingBoard(newBoard);
     }
 
+    function handleShow() {
+        setShow(true);
+    }
+
+    function handleClose() {
+        setShow(false);
+    }
+
     useEffect(() => {
         function handleKeyDown(e) {
             if (!isNaN(e.key)) {
@@ -110,6 +127,37 @@ export default function Game() {
 
     return (
         <div tabIndex="0" className="center-div">
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Congratulations!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <DifficultyControl 
+                        level={ difficulty.easy } 
+                        onGenerate={ handleGenerate } 
+                        onInitialize={ handleCounter } 
+                        onUpdateSolution={ handleSolution } 
+                        onUpdateStarting={ handleStarting } 
+                        onClose={ handleClose } 
+                    />
+                    <DifficultyControl 
+                        level={ difficulty.medium } 
+                        onGenerate={ handleGenerate } 
+                        onInitialize={ handleCounter } 
+                        onUpdateSolution={ handleSolution } 
+                        onUpdateStarting={ handleStarting } 
+                        onClose={ handleClose } 
+                    />
+                    <DifficultyControl 
+                        level={ difficulty.hard } 
+                        onGenerate={ handleGenerate } 
+                        onInitialize={ handleCounter } 
+                        onUpdateSolution={ handleSolution } 
+                        onUpdateStarting={ handleStarting } 
+                        onClose={ handleClose } 
+                    />
+                </Modal.Body>
+            </Modal>
             <Board 
                 board={ board } 
                 solvedBoard={ solvedBoard } 
@@ -121,6 +169,7 @@ export default function Game() {
                 onSelect={ handleSelect } 
                 onUpdateCounter={ handleCounter } 
                 onUpdatePlacements={ handlePlacements } 
+                onShow={ handleShow } 
             />
             <NumberDisplay selection={ selected } onSelect={ handleSelect } counter={ counter } />
             <div className="controls-container">

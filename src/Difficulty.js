@@ -19,7 +19,7 @@ export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution,
 
     return (
         <div className="center-div">
-            <Button variant="primary" onClick={ handleShow }>New Game</Button>
+            <Button variant="success" onClick={ handleShow }>New Game</Button>
             <Modal show={ show } onHide={ handleClose }>
                 <Modal.Header closeButton>
                     <Modal.Title>New Game</Modal.Title>
