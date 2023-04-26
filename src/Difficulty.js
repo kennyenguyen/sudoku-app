@@ -19,8 +19,8 @@ export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution,
 
     return (
         <div className="center-div">
-            <Button variant="success" onClick={ handleShow }>New Game</Button>
-            <Modal show={ show } onHide={ handleClose }>
+            <Button variant="success" onClick={ handleShow } onMouseDown={e => e.preventDefault()}>New Game</Button>
+            <Modal show={ show } onHide={ handleClose } centered>
                 <Modal.Header closeButton>
                     <Modal.Title>New Game</Modal.Title>
                 </Modal.Header>
@@ -52,30 +52,6 @@ export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution,
                 </Modal.Body>
             </Modal>
         </div>
-
-        // <div className="center-div">
-        //     <DifficultyControl 
-        //         level={ difficulty.easy } 
-        //         onGenerate={ onGenerate } 
-        //         onInitialize={ onInitialize } 
-        //         onUpdateSolution={ onUpdateSolution } 
-        //         onUpdateStarting={ onUpdateStarting } 
-        //     />
-        //     <DifficultyControl 
-        //         level={ difficulty.medium } 
-        //         onGenerate={ onGenerate } 
-        //         onInitialize={ onInitialize } 
-        //         onUpdateSolution={ onUpdateSolution } 
-        //         onUpdateStarting={ onUpdateStarting } 
-        //     />
-        //     <DifficultyControl 
-        //         level={ difficulty.hard } 
-        //         onGenerate={ onGenerate } 
-        //         onInitialize={ onInitialize } 
-        //         onUpdateSolution={ onUpdateSolution } 
-        //         onUpdateStarting={ onUpdateStarting } 
-        //     />
-        // </div>
     );
 
 }

@@ -20,7 +20,7 @@ export default function DifficultyControl({ level, onGenerate, onInitialize, onU
 
     return (
         <div className="center-div">
-            <Button className="difficulty-btn" variant={ color } size='lg' onClick={ () => handleGenerate(level) }>{ label }</Button>
+            <Button className="difficulty-btn" variant={ color } onClick={ () => handleGenerate(level) }>{ label }</Button>
         </div>
     );
 

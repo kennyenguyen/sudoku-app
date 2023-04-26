@@ -16,8 +16,6 @@ nightmare = 25 clues given (??)
 
 /*
 TODO:
-- style incorrect placements as red number
-- create "game over" notification when board is filled correctly
 - add timer
 */
 
