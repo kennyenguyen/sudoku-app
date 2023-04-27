@@ -5,6 +5,7 @@ import Difficulty from "./Difficulty";
 import DifficultyControl from "./DifficultyControl";
 import NumberDisplay from "./NumberDisplay";
 import Controls from "./Controls";
+import Timer from "./Timer";
 
 /*
 easy = 38 clues given
@@ -17,6 +18,7 @@ nightmare = 25 clues given (??)
 /*
 TODO:
 - add timer
+- 3-2-1 countdown every new game before timer starts
 */
 
 export default function Game() {
@@ -29,6 +31,8 @@ export default function Game() {
     const [solvedBoard, setSolvedBoard] = useState(Array(9).fill(0).map(() => new Array(9).fill(0)));
     const [startingBoard, setStartingBoard] = useState(Array(9).fill(0).map(() => new Array(9).fill(0)));
     const [show, setShow] = useState(false);
+    const [time, setTime] = useState(0);
+    const [running, setRunning] = useState(false);
 
     const difficulty = {
         easy: 40,
@@ -123,6 +127,26 @@ export default function Game() {
         };
     }, [selected, history, board, counter, placements]);
 
+    function start_timer() {
+        setRunning(true);
+    }
+
+    function stop_timer() {
+        setRunning(false);
+    }
+
+    function reset_timer() {
+        setTime(0);
+    }
+
+    useEffect(() => {
+        let interval_id;
+        if (running) {
+            interval_id = setInterval(() => setTime(time + 1), 1000);
+        }
+        return () => clearInterval(interval_id);
+    }, [running, time]);
+
     return (
         <div tabIndex="0" className="center-div">
             <Modal show={show} onHide={handleClose}>
@@ -156,6 +180,7 @@ export default function Game() {
                     />
                 </Modal.Body>
             </Modal>
+            <Timer time={ time } running={ running } />
             <Board 
                 board={ board } 
                 solvedBoard={ solvedBoard } 
