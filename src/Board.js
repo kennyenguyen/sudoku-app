@@ -1,7 +1,7 @@
 import Square from './Square';
 import { completed_board } from './helper';
 
-export default function Board({ board, solvedBoard, startingBoard, selection, counter, placements, onMove, onSelect, onUpdateCounter, onUpdatePlacements, onShow }) {
+export default function Board({ board, solvedBoard, startingBoard, selection, counter, placements, onMove, onSelect, onUpdateCounter, onUpdatePlacements, onShowGameOver, onStopTimer }) {
 
     function handleClick(row, col, val) {
         if (board[row][col] === 0 && counter.get(val) < 9) {
@@ -20,7 +20,8 @@ export default function Board({ board, solvedBoard, startingBoard, selection, co
             const newBoard = board.map(row => row.slice());
             newBoard[row][col] = val;
             if (num_cells === 80 && completed_board(newBoard, solvedBoard)) {
-                onShow();
+                onStopTimer();
+                onShowGameOver();
             }
             const newCounter = new Map(counter);
             newCounter.set(val, newCounter.get(val) + 1);

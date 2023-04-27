@@ -17,7 +17,6 @@ nightmare = 25 clues given (??)
 
 /*
 TODO:
-- add timer
 - 3-2-1 countdown every new game before timer starts
 */
 
@@ -30,7 +29,7 @@ export default function Game() {
     const [placements, setPlacements] = useState([]);
     const [solvedBoard, setSolvedBoard] = useState(Array(9).fill(0).map(() => new Array(9).fill(0)));
     const [startingBoard, setStartingBoard] = useState(Array(9).fill(0).map(() => new Array(9).fill(0)));
-    const [show, setShow] = useState(false);
+    const [showGameOver, setShowGameOver] = useState(false);
     const [time, setTime] = useState(0);
     const [running, setRunning] = useState(false);
 
@@ -90,12 +89,12 @@ export default function Game() {
         setStartingBoard(newBoard);
     }
 
-    function handleShow() {
-        setShow(true);
+    function handleShowGameOver() {
+        setShowGameOver(true);
     }
 
-    function handleClose() {
-        setShow(false);
+    function handleCloseGameOver() {
+        setShowGameOver(false);
     }
 
     useEffect(() => {
@@ -127,15 +126,15 @@ export default function Game() {
         };
     }, [selected, history, board, counter, placements]);
 
-    function start_timer() {
+    function handleStartTimer() {
         setRunning(true);
     }
 
-    function stop_timer() {
+    function handleStopTimer() {
         setRunning(false);
     }
 
-    function reset_timer() {
+    function handleResetTimer() {
         setTime(0);
     }
 
@@ -149,18 +148,21 @@ export default function Game() {
 
     return (
         <div tabIndex="0" className="center-div">
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={showGameOver} onHide={handleCloseGameOver}>
                 <Modal.Header closeButton>
                     <Modal.Title>Congratulations!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    <p>You solved the puzzle in { Math.floor(time / 60) } { Math.floor(time / 60) === 1 ? 'minute' : 'minutes' } { time % 60 } { time % 60 === 1 ? 'second' : 'seconds' }!</p>
                     <DifficultyControl 
                         level={ difficulty.easy } 
                         onGenerate={ handleGenerate } 
                         onInitialize={ handleCounter } 
                         onUpdateSolution={ handleSolution } 
                         onUpdateStarting={ handleStarting } 
-                        onClose={ handleClose } 
+                        onClose={ handleCloseGameOver } 
+                        onResetTimer={ handleResetTimer } 
+                        onStartTimer={ handleStartTimer } 
                     />
                     <DifficultyControl 
                         level={ difficulty.medium } 
@@ -168,7 +170,9 @@ export default function Game() {
                         onInitialize={ handleCounter } 
                         onUpdateSolution={ handleSolution } 
                         onUpdateStarting={ handleStarting } 
-                        onClose={ handleClose } 
+                        onClose={ handleCloseGameOver } 
+                        onResetTimer={ handleResetTimer } 
+                        onStartTimer={ handleStartTimer } 
                     />
                     <DifficultyControl 
                         level={ difficulty.hard } 
@@ -176,7 +180,9 @@ export default function Game() {
                         onInitialize={ handleCounter } 
                         onUpdateSolution={ handleSolution } 
                         onUpdateStarting={ handleStarting } 
-                        onClose={ handleClose } 
+                        onClose={ handleCloseGameOver } 
+                        onResetTimer={ handleResetTimer } 
+                        onStartTimer={ handleStartTimer } 
                     />
                 </Modal.Body>
             </Modal>
@@ -192,7 +198,8 @@ export default function Game() {
                 onSelect={ handleSelect } 
                 onUpdateCounter={ handleCounter } 
                 onUpdatePlacements={ handlePlacements } 
-                onShow={ handleShow } 
+                onShowGameOver={ handleShowGameOver } 
+                onStopTimer={ handleStopTimer } 
             />
             <NumberDisplay selection={ selected } onSelect={ handleSelect } counter={ counter } />
             <div className="controls-container">
@@ -202,6 +209,8 @@ export default function Game() {
                         onInitialize={ handleCounter } 
                         onUpdateSolution={ handleSolution } 
                         onUpdateStarting={ handleStarting } 
+                        onResetTimer={ handleResetTimer } 
+                        onStartTimer={ handleStartTimer } 
                     />
                 </div>
                 <div className="controls-right">

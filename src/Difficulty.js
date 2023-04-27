@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Accordion from 'react-bootstrap/Accordion';
 import DifficultyControl from "./DifficultyControl";
 
-export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution, onUpdateStarting }) {
+export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution, onUpdateStarting, onResetTimer, onStartTimer }) {
 
     const [showGameOptions, setShowGameOptions] = useState(false);
     const [showTutorial, setShowTutorial] = useState(true);
@@ -37,7 +37,9 @@ export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution,
                         onInitialize={ onInitialize }
                         onUpdateSolution={ onUpdateSolution }
                         onUpdateStarting={ onUpdateStarting }
-                        onCloseGameOptions={ handleCloseGameOptions }
+                        onClose={ handleCloseGameOptions } 
+                        onResetTimer={ onResetTimer } 
+                        onStartTimer={ onStartTimer } 
                     />
                     <DifficultyControl
                         level={ difficulty.medium }
@@ -45,7 +47,9 @@ export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution,
                         onInitialize={ onInitialize }
                         onUpdateSolution={ onUpdateSolution }
                         onUpdateStarting={ onUpdateStarting }
-                        onCloseGameOptions={ handleCloseGameOptions }
+                        onClose={ handleCloseGameOptions } 
+                        onResetTimer={ onResetTimer } 
+                        onStartTimer={ onStartTimer } 
                     />
                     <DifficultyControl
                         level={ difficulty.hard }
@@ -53,7 +57,9 @@ export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution,
                         onInitialize={ onInitialize }
                         onUpdateSolution={ onUpdateSolution }
                         onUpdateStarting={ onUpdateStarting }
-                        onCloseGameOptions={ handleCloseGameOptions }
+                        onClose={ handleCloseGameOptions } 
+                        onResetTimer={ onResetTimer } 
+                        onStartTimer={ onStartTimer } 
                     />
                 </Modal.Body>
             </Modal>
