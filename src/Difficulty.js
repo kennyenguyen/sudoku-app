@@ -7,7 +7,7 @@ import DifficultyControl from "./DifficultyControl";
 export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution, onUpdateStarting, onResetTimer, onStartTimer }) {
 
     const [showGameOptions, setShowGameOptions] = useState(false);
-    const [showTutorial, setShowTutorial] = useState(true);
+    const [showTutorial, setShowTutorial] = useState(false);
 
     const difficulty = {
         easy: 40,

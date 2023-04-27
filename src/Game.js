@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import Board from "./Board";
 import Difficulty from "./Difficulty";
 import DifficultyControl from "./DifficultyControl";
@@ -18,6 +20,7 @@ nightmare = 25 clues given (??)
 /*
 TODO:
 - 3-2-1 countdown every new game before timer starts
+- need option to change username
 */
 
 export default function Game() {
@@ -32,6 +35,8 @@ export default function Game() {
     const [showGameOver, setShowGameOver] = useState(false);
     const [time, setTime] = useState(0);
     const [running, setRunning] = useState(false);
+    const [username, setUsername] = useState('');
+    const [showUsernamePrompt, setShowUsernamePrompt] = useState(true);
 
     const difficulty = {
         easy: 40,
@@ -146,11 +151,24 @@ export default function Game() {
         return () => clearInterval(interval_id);
     }, [running, time]);
 
+    function handleShowUsernamePrompt() {
+        setShowUsernamePrompt(true);
+    }
+
+    function handleCloseUsernamePrompt() {
+        setShowUsernamePrompt(false);
+    }
+
+    const handleSubmitUsername = e => {
+        e.preventDefault();
+        setShowUsernamePrompt(false);
+    }
+
     return (
         <div tabIndex="0" className="center-div">
             <Modal show={showGameOver} onHide={handleCloseGameOver}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Congratulations!</Modal.Title>
+                    <Modal.Title>{ username === '' ? 'Congratulations!' : `Congratulations, ${ username }!` }</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <p>You solved the puzzle in { Math.floor(time / 60) } { Math.floor(time / 60) === 1 ? 'minute' : 'minutes' } { time % 60 } { time % 60 === 1 ? 'second' : 'seconds' }!</p>
@@ -185,6 +203,27 @@ export default function Game() {
                         onStartTimer={ handleStartTimer } 
                     />
                 </Modal.Body>
+            </Modal>
+            <Modal show={ showUsernamePrompt } onHide={ handleCloseUsernamePrompt }>
+                <Modal.Header closeButton>
+                    <Modal.Title>Enter User Info</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={ handleSubmitUsername }>
+                        <Form.Group>
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control 
+                                type="text" 
+                                value={ username } 
+                                onChange={ e => setUsername(e.target.value) } 
+                                autoFocus 
+                            />
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={ handleCloseUsernamePrompt }>Play</Button>
+                </Modal.Footer>
             </Modal>
             <Timer time={ time } running={ running } />
             <Board 
