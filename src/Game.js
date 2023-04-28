@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 import Board from "./Board";
 import Difficulty from "./Difficulty";
 import DifficultyControl from "./DifficultyControl";
@@ -225,6 +227,7 @@ export default function Game() {
                     <Button variant="primary" onClick={ handleCloseUsernamePrompt }>Play</Button>
                 </Modal.Footer>
             </Modal>
+            <h4><i className={ username !== '' ? 'bi bi-person-circle' : '' }></i> { username !== '' && username }</h4>
             <Timer time={ time } running={ running } />
             <Board 
                 board={ board } 
