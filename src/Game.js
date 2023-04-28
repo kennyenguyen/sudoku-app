@@ -1,9 +1,8 @@
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useState, useEffect } from "react";
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-
 import Board from "./Board";
 import Difficulty from "./Difficulty";
 import DifficultyControl from "./DifficultyControl";
