@@ -83,6 +83,11 @@ tr:nth-of-type(6) td {
     grid-template-columns: auto auto;
 }
 
+.info-container {
+    display: flex;
+    align-items: center;
+}
+
 .controls-left {
     position: relative;
     margin-left: 0;
@@ -93,7 +98,6 @@ tr:nth-of-type(6) td {
     position: relative;
     margin-right: 0;
     margin-left: auto;
-    padding: 0 12px;
 }
 
 .invisible {
@@ -112,6 +116,8 @@ tr:nth-of-type(6) td {
     color: rgb(248, 103, 99);
 }
 
-.timer-text {
-    
+/* .timer-text {} */
+
+.user-icon {
+    color: rgb(42, 56, 255) !important;
 }

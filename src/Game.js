@@ -227,8 +227,16 @@ export default function Game() {
                     <Button variant="primary" onClick={ handleCloseUsernamePrompt }>Play</Button>
                 </Modal.Footer>
             </Modal>
-            <h4><i className={ username !== '' ? 'bi bi-person-circle' : '' }></i> { username !== '' && username }</h4>
-            <Timer time={ time } running={ running } />
+            <div className="info-container">
+                <div className="controls-left">
+                    <h4>
+                        <Button className="user-icon" variant="link" size="lg" onClick={ handleShowUsernamePrompt } onMouseDown={ e => e.preventDefault() }><i className="bi bi-person-circle"></i></Button> { username }
+                    </h4>
+                </div>
+                <div className="controls-right">
+                    <Timer time={ time } running={ running } />
+                </div>
+            </div>
             <Board 
                 board={ board } 
                 solvedBoard={ solvedBoard } 

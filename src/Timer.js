@@ -5,9 +5,9 @@ export default function Timer({ time, running }) {
 
     return (
         <div className="center-div">
-            <p className="timer-text">
+            <h4 className="timer-text">
                 { minutes.toString().padStart(2, "0") }:{ seconds.toString().padStart(2, "0") }
-            </p>
+            </h4>
         </div>
     );
 
