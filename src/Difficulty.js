@@ -25,7 +25,13 @@ export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution,
 
     return (
         <div className="center-div">
-            <Button variant="success" onClick={ handleShowGameOptions } onMouseDown={ e => e.preventDefault() }>New Game</Button>
+            <Button 
+                variant="success" 
+                onClick={ handleShowGameOptions } 
+                onMouseDown={ e => e.preventDefault() } 
+            >
+                New Game
+            </Button>
             <Modal show={ showGameOptions } onHide={ handleCloseGameOptions } centered>
                 <Modal.Header closeButton>
                     <Modal.Title>New Game</Modal.Title>
@@ -70,7 +76,13 @@ export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution,
                 </Modal.Body>
             </Modal>
             <div className="py-3">
-                <Button variant="warning" onClick={ handleShowTutorial } onMouseDown={ e => e.preventDefault() }>Tutorial</Button>
+                <Button 
+                    variant="warning" 
+                    onClick={ handleShowTutorial } 
+                    onMouseDown={ e => e.preventDefault() } 
+                >
+                    Tutorial
+                </Button>
             </div>
             <Modal show={ showTutorial } onHide={ handleCloseTutorial } size="lg">
                 <Modal.Header closeButton>

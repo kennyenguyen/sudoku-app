@@ -3,12 +3,14 @@ import { useState, useEffect } from "react";
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 import Board from "./Board";
 import Difficulty from "./Difficulty";
 import DifficultyControl from "./DifficultyControl";
 import NumberDisplay from "./NumberDisplay";
 import Controls from "./Controls";
 import Timer from "./Timer";
+import Leaderboard from './Leaderboard';
 
 /*
 easy = 38 clues given
@@ -39,6 +41,7 @@ export default function Game() {
     const [username, setUsername] = useState('');
     const [showUsernamePrompt, setShowUsernamePrompt] = useState(true);
     const [difficultyLevel, setDifficultyLevel] = useState('');
+    const [scores, setScores] = useState([]);
 
     const difficulty = {
         easy: 40,
@@ -48,6 +51,49 @@ export default function Game() {
 
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
+
+    // Fetch all scores on init
+    useEffect(() => {
+        fetchScores();
+    }, []);
+
+    async function fetchScores() {
+        axios.get('http://localhost:4001/scores/all')
+            .then(response => {
+                setScores(response.data);
+            })
+            .catch(error => console.error(`There was an error retrieving the scores list: ${error}`));
+    }
+
+    function handleCreateScore() {
+        axios.post('http://localhost:4001/scores/create', {
+            username: username,
+            time: time,
+            difficulty: difficultyLevel
+        })
+            .then(res => {
+                console.log(res.data);
+                fetchScores();
+            })
+            .catch(error => console.error(`There was an error creating the score: ${error}`));
+    }
+
+    function handleDeleteScore(score_id) {
+        axios.put('http://localhost:4001/scores/delete')
+            .then(() => {
+                console.log(`Score ${score_id} deleted.`);
+                fetchScores();
+            })
+            .catch(error => console.error(`There was an error removing the score: ${error}`));
+    }
+
+    function handleResetScores() {
+        axios.put('http://localhost:4001/scores/reset')
+            .then(() => {
+                fetchScores();
+            })
+            .catch(error => console.error(`There was an error resetting the score list: ${error}`));
+    }
 
     function handleMove(newBoard) {
         const nextHistory = [...history, newBoard];
@@ -175,48 +221,48 @@ export default function Game() {
 
     return (
         <div tabIndex="0" className="center-div">
-            <Modal show={showGameOver} onHide={handleCloseGameOver}>
+            <Modal show={ showGameOver } onHide={ handleCloseGameOver }>
                 <Modal.Header closeButton>
-                    <Modal.Title>{ username === '' ? 'Congratulations!' : `Congratulations, ${ username }!` }</Modal.Title>
+                    <Modal.Title>{ username === '' ? 'Congratulations!' : `Congratulations, ${username}!` }</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <p>Difficulty: { difficultyLevel }</p>
                     <p>Timer: { minutes.toString().padStart(2, "0") }:{ seconds.toString().padStart(2, "0") }</p>
-                    <DifficultyControl 
-                        level={ difficulty.easy } 
-                        onGenerate={ handleGenerate } 
-                        onInitialize={ handleCounter } 
-                        onUpdateSolution={ handleSolution } 
-                        onUpdateStarting={ handleStarting } 
-                        onClose={ handleCloseGameOver } 
-                        onResetTimer={ handleResetTimer } 
-                        onStartTimer={ handleStartTimer } 
-                        onSelect={ handleSelect } 
-                        onUpdateDifficulty={ handleDifficultyLevel } 
+                    <DifficultyControl
+                        level={ difficulty.easy }
+                        onGenerate={ handleGenerate }
+                        onInitialize={ handleCounter }
+                        onUpdateSolution={ handleSolution }
+                        onUpdateStarting={ handleStarting }
+                        onClose={ handleCloseGameOver }
+                        onResetTimer={ handleResetTimer }
+                        onStartTimer={ handleStartTimer }
+                        onSelect={ handleSelect }
+                        onUpdateDifficulty={ handleDifficultyLevel }
                     />
-                    <DifficultyControl 
-                        level={ difficulty.medium } 
-                        onGenerate={ handleGenerate } 
-                        onInitialize={ handleCounter } 
-                        onUpdateSolution={ handleSolution } 
-                        onUpdateStarting={ handleStarting } 
-                        onClose={ handleCloseGameOver } 
-                        onResetTimer={ handleResetTimer } 
-                        onStartTimer={ handleStartTimer } 
-                        onSelect={ handleSelect } 
-                        onUpdateDifficulty={ handleDifficultyLevel } 
+                    <DifficultyControl
+                        level={ difficulty.medium }
+                        onGenerate={ handleGenerate }
+                        onInitialize={ handleCounter }
+                        onUpdateSolution={ handleSolution }
+                        onUpdateStarting={ handleStarting }
+                        onClose={ handleCloseGameOver }
+                        onResetTimer={ handleResetTimer }
+                        onStartTimer={ handleStartTimer }
+                        onSelect={ handleSelect }
+                        onUpdateDifficulty={ handleDifficultyLevel }
                     />
-                    <DifficultyControl 
-                        level={ difficulty.hard } 
-                        onGenerate={ handleGenerate } 
-                        onInitialize={ handleCounter } 
-                        onUpdateSolution={ handleSolution } 
-                        onUpdateStarting={ handleStarting } 
-                        onClose={ handleCloseGameOver } 
-                        onResetTimer={ handleResetTimer } 
-                        onStartTimer={ handleStartTimer } 
-                        onSelect={ handleSelect } 
-                        onUpdateDifficulty={ handleDifficultyLevel } 
+                    <DifficultyControl
+                        level={ difficulty.hard }
+                        onGenerate={ handleGenerate }
+                        onInitialize={ handleCounter }
+                        onUpdateSolution={ handleSolution }
+                        onUpdateStarting={ handleStarting }
+                        onClose={ handleCloseGameOver }
+                        onResetTimer={ handleResetTimer }
+                        onStartTimer={ handleStartTimer }
+                        onSelect={ handleSelect }
+                        onUpdateDifficulty={ handleDifficultyLevel }
                     />
                 </Modal.Body>
             </Modal>
@@ -228,11 +274,11 @@ export default function Game() {
                     <Form onSubmit={ handleSubmitUsername }>
                         <Form.Group>
                             <Form.Label>Username</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                value={ username } 
-                                onChange={ e => setUsername(e.target.value) } 
-                                autoFocus 
+                            <Form.Control
+                                type="text"
+                                value={ username }
+                                onChange={ e => setUsername(e.target.value) }
+                                autoFocus
                             />
                         </Form.Group>
                     </Form>
@@ -251,36 +297,38 @@ export default function Game() {
                     <Timer time={ time } running={ running } />
                 </div>
             </div>
-            <Board 
-                board={ board } 
-                solvedBoard={ solvedBoard } 
-                startingBoard={ startingBoard } 
-                selection={ selected } 
-                counter={ counter } 
-                placements={ placements } 
-                onMove={ handleMove } 
-                onSelect={ handleSelect } 
-                onUpdateCounter={ handleCounter } 
-                onUpdatePlacements={ handlePlacements } 
-                onShowGameOver={ handleShowGameOver } 
+            <Board
+                board={ board }
+                solvedBoard={ solvedBoard }
+                startingBoard={ startingBoard }
+                selection={ selected }
+                counter={ counter }
+                placements={ placements }
+                onMove={ handleMove }
+                onSelect={ handleSelect }
+                onUpdateCounter={ handleCounter }
+                onUpdatePlacements={ handlePlacements }
+                onShowGameOver={ handleShowGameOver }
                 onStopTimer={ handleStopTimer } 
+                onCreateScore={ handleCreateScore } 
             />
             <NumberDisplay selection={ selected } onSelect={ handleSelect } counter={ counter } />
             <div className="controls-container">
                 <div className="controls-left">
-                    <Difficulty 
-                        onGenerate={ handleGenerate } 
-                        onInitialize={ handleCounter } 
-                        onUpdateSolution={ handleSolution } 
-                        onUpdateStarting={ handleStarting } 
-                        onResetTimer={ handleResetTimer } 
-                        onStartTimer={ handleStartTimer } 
-                        onSelect={ handleSelect } 
-                        onUpdateDifficulty={ handleDifficultyLevel } 
+                    <Difficulty
+                        onGenerate={ handleGenerate }
+                        onInitialize={ handleCounter }
+                        onUpdateSolution={ handleSolution }
+                        onUpdateStarting={ handleStarting }
+                        onResetTimer={ handleResetTimer }
+                        onStartTimer={ handleStartTimer }
+                        onSelect={ handleSelect }
+                        onUpdateDifficulty={ handleDifficultyLevel }
                     />
                 </div>
                 <div className="controls-right">
                     <Controls onUndo={ handleUndo } />
+                    <Leaderboard scores={ scores } />
                 </div>
             </div>
         </div>
