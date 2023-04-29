@@ -1,4 +1,4 @@
-export default function Timer({ time, running }) {
+export default function Timer({ time }) {
 
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;

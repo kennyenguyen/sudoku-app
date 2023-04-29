@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import { generate_board } from "./helper";
 import { initial_counter } from "./helper";
 
-export default function DifficultyControl({ level, onGenerate, onInitialize, onUpdateSolution, onUpdateStarting, onClose, onResetTimer, onStartTimer, onSelect }) {
+export default function DifficultyControl({ level, onGenerate, onInitialize, onUpdateSolution, onUpdateStarting, onClose, onResetTimer, onStartTimer, onSelect, onUpdateDifficulty }) {
 
     const label = level === 40 ? 'Easy' : level === 36 ? 'Medium' : 'Hard';
 
@@ -19,6 +19,7 @@ export default function DifficultyControl({ level, onGenerate, onInitialize, onU
         onResetTimer();
         onStartTimer();
         onSelect(1);
+        onUpdateDifficulty(label);
     }
 
     return (

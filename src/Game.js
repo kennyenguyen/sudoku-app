@@ -38,12 +38,16 @@ export default function Game() {
     const [running, setRunning] = useState(false);
     const [username, setUsername] = useState('');
     const [showUsernamePrompt, setShowUsernamePrompt] = useState(true);
+    const [difficultyLevel, setDifficultyLevel] = useState('');
 
     const difficulty = {
         easy: 40,
         medium: 36,
         hard: 32
     };
+
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
 
     function handleMove(newBoard) {
         const nextHistory = [...history, newBoard];
@@ -160,9 +164,13 @@ export default function Game() {
         setShowUsernamePrompt(false);
     }
 
-    const handleSubmitUsername = e => {
+    function handleSubmitUsername(e) {
         e.preventDefault();
         setShowUsernamePrompt(false);
+    }
+
+    function handleDifficultyLevel(label) {
+        setDifficultyLevel(label);
     }
 
     return (
@@ -172,7 +180,8 @@ export default function Game() {
                     <Modal.Title>{ username === '' ? 'Congratulations!' : `Congratulations, ${ username }!` }</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>You solved the puzzle in { Math.floor(time / 60) } { Math.floor(time / 60) === 1 ? 'minute' : 'minutes' } { time % 60 } { time % 60 === 1 ? 'second' : 'seconds' }!</p>
+                    <p>Difficulty: { difficultyLevel }</p>
+                    <p>Timer: { minutes.toString().padStart(2, "0") }:{ seconds.toString().padStart(2, "0") }</p>
                     <DifficultyControl 
                         level={ difficulty.easy } 
                         onGenerate={ handleGenerate } 
@@ -183,6 +192,7 @@ export default function Game() {
                         onResetTimer={ handleResetTimer } 
                         onStartTimer={ handleStartTimer } 
                         onSelect={ handleSelect } 
+                        onUpdateDifficulty={ handleDifficultyLevel } 
                     />
                     <DifficultyControl 
                         level={ difficulty.medium } 
@@ -194,6 +204,7 @@ export default function Game() {
                         onResetTimer={ handleResetTimer } 
                         onStartTimer={ handleStartTimer } 
                         onSelect={ handleSelect } 
+                        onUpdateDifficulty={ handleDifficultyLevel } 
                     />
                     <DifficultyControl 
                         level={ difficulty.hard } 
@@ -205,6 +216,7 @@ export default function Game() {
                         onResetTimer={ handleResetTimer } 
                         onStartTimer={ handleStartTimer } 
                         onSelect={ handleSelect } 
+                        onUpdateDifficulty={ handleDifficultyLevel } 
                     />
                 </Modal.Body>
             </Modal>
@@ -264,6 +276,7 @@ export default function Game() {
                         onResetTimer={ handleResetTimer } 
                         onStartTimer={ handleStartTimer } 
                         onSelect={ handleSelect } 
+                        onUpdateDifficulty={ handleDifficultyLevel } 
                     />
                 </div>
                 <div className="controls-right">
