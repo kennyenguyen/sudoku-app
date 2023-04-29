@@ -21,7 +21,7 @@ nightmare = 25 clues given (??)
 /*
 TODO:
 - 3-2-1 countdown every new game before timer starts
-- need option to change username
+- db table: score_id, username, time, difficulty
 */
 
 export default function Game() {
