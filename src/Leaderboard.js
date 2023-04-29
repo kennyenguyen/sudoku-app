@@ -9,13 +9,15 @@ export default function Leaderboard({ scores }) {
 
     return (
         <div>
-            <Button
-                variant="info"
-                onClick={ () => setShowBoard(true) }
-                onMouseDown={ e => e.preventDefault() }
-            >
-                Leaderboard
-            </Button>
+            <div className="py-3">
+                <Button
+                    variant="info"
+                    onClick={ () => setShowBoard(true) }
+                    onMouseDown={ e => e.preventDefault() }
+                >
+                    Leaderboard
+                </Button>
+            </div>
             <Modal show={ showBoard } onHide={ () => setShowBoard(false) } size="lg" >
                 <Modal.Header closeButton>
                     <Modal.Title>Leaderboard</Modal.Title>
@@ -24,7 +26,7 @@ export default function Leaderboard({ scores }) {
                     <Table bordered hover variant="dark">
                         <thead>
                             <tr key={ "header" }>
-                                { Object.keys(scores[0]).map((key) => (
+                                { scores.length > 0 && Object.keys(scores[0]).map((key) => (
                                     <th>{ key }</th>
                                 )) }
                             </tr>

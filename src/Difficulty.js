@@ -24,14 +24,16 @@ export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution,
     const handleCloseTutorial = () => setShowTutorial(false);
 
     return (
-        <div className="center-div">
-            <Button 
-                variant="success" 
-                onClick={ handleShowGameOptions } 
-                onMouseDown={ e => e.preventDefault() } 
-            >
-                New Game
-            </Button>
+        <div>
+            <div className="center-div">
+                <Button 
+                    variant="success" 
+                    onClick={ handleShowGameOptions } 
+                    onMouseDown={ e => e.preventDefault() } 
+                >
+                    New Game
+                </Button>
+            </div>
             <Modal show={ showGameOptions } onHide={ handleCloseGameOptions } centered>
                 <Modal.Header closeButton>
                     <Modal.Title>New Game</Modal.Title>

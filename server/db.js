@@ -12,7 +12,7 @@ knex.schema
     .hasTable('scores')
     .then((exists) => {
         if (!exists) {
-            return knex.createTable('scores', (table) => {
+            return knex.schema.createTable('scores', (table) => {
                 table.increments('score_id').primary();
                 table.string('username');
                 table.integer('time');
