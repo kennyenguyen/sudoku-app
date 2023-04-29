@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Accordion from 'react-bootstrap/Accordion';
 import DifficultyControl from "./DifficultyControl";
 
-export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution, onUpdateStarting, onResetTimer, onStartTimer }) {
+export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution, onUpdateStarting, onResetTimer, onStartTimer, onSelect }) {
 
     const [showGameOptions, setShowGameOptions] = useState(false);
     const [showTutorial, setShowTutorial] = useState(false);
@@ -40,6 +40,7 @@ export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution,
                         onClose={ handleCloseGameOptions } 
                         onResetTimer={ onResetTimer } 
                         onStartTimer={ onStartTimer } 
+                        onSelect={ onSelect } 
                     />
                     <DifficultyControl
                         level={ difficulty.medium }
@@ -50,6 +51,7 @@ export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution,
                         onClose={ handleCloseGameOptions } 
                         onResetTimer={ onResetTimer } 
                         onStartTimer={ onStartTimer } 
+                        onSelect={ onSelect } 
                     />
                     <DifficultyControl
                         level={ difficulty.hard }
@@ -60,6 +62,7 @@ export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution,
                         onClose={ handleCloseGameOptions } 
                         onResetTimer={ onResetTimer } 
                         onStartTimer={ onStartTimer } 
+                        onSelect={ onSelect } 
                     />
                 </Modal.Body>
             </Modal>

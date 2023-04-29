@@ -182,6 +182,7 @@ export default function Game() {
                         onClose={ handleCloseGameOver } 
                         onResetTimer={ handleResetTimer } 
                         onStartTimer={ handleStartTimer } 
+                        onSelect={ handleSelect } 
                     />
                     <DifficultyControl 
                         level={ difficulty.medium } 
@@ -192,6 +193,7 @@ export default function Game() {
                         onClose={ handleCloseGameOver } 
                         onResetTimer={ handleResetTimer } 
                         onStartTimer={ handleStartTimer } 
+                        onSelect={ handleSelect } 
                     />
                     <DifficultyControl 
                         level={ difficulty.hard } 
@@ -202,6 +204,7 @@ export default function Game() {
                         onClose={ handleCloseGameOver } 
                         onResetTimer={ handleResetTimer } 
                         onStartTimer={ handleStartTimer } 
+                        onSelect={ handleSelect } 
                     />
                 </Modal.Body>
             </Modal>
@@ -260,6 +263,7 @@ export default function Game() {
                         onUpdateStarting={ handleStarting } 
                         onResetTimer={ handleResetTimer } 
                         onStartTimer={ handleStartTimer } 
+                        onSelect={ handleSelect } 
                     />
                 </div>
                 <div className="controls-right">
