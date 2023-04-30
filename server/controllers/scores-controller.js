@@ -8,7 +8,7 @@ exports.getAllScores = async (req, res) => {
             res.json(data);
         })
         .catch(err => {
-            res.json({ message: `There was an error retrieving scores: ${err}` });
+            res.json({ message: `There was an error retrieving all scores: ${err}` });
         });
 };
 
@@ -53,3 +53,44 @@ exports.deleteAllScores = async (req, res) => {
             res.json({ message: `There was an error deleting scores list: ${err}.` });
         });
 };
+
+// Unused functions but should work ===========================================
+
+// // Get all easy scores
+// exports.getEasyScores = async (req, res) => {
+//     knex.select('*')
+//         .from('scores')
+//         .where('difficulty', 'Easy')
+//         .then(data => {
+//             res.json(data);
+//         })
+//         .catch(err => {
+//             res.json({ message: `There was an error retrieving all easy scores: ${err}` });
+//         });
+// };
+
+// // Get all medium scores
+// exports.getMediumScores = async (req, res) => {
+//     knex.select('*')
+//         .from('scores')
+//         .where('difficulty', 'Medium')
+//         .then(data => {
+//             res.json(data);
+//         })
+//         .catch(err => {
+//             res.json({ message: `There was an error retrieving all medium scores: ${err}` });
+//         });
+// };
+
+// // Get all hard scores
+// exports.getHardScores = async (req, res) => {
+//     knex.select('*')
+//         .from('scores')
+//         .where('difficulty', 'Hard')
+//         .then(data => {
+//             res.json(data);
+//         })
+//         .catch(err => {
+//             res.json({ message: `There was an error retrieving all hard scores: ${err}` });
+//         });
+// };

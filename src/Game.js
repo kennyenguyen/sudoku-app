@@ -15,7 +15,7 @@ import Leaderboard from './Leaderboard';
 /*
 TODO:
 - 3-2-1 countdown every new game before timer starts
-- create controller methods for fetching easy/medium/hard scores
+- app freezes when pressing 'D' on leaderboard screen (!!) 
 */
 
 export default function Game() {
@@ -58,16 +58,18 @@ export default function Game() {
     }
 
     function handleCreateScore() {
-        axios.post('http://localhost:4001/scores/create', {
-            username: username,
-            time: time,
-            difficulty: difficultyLevel
-        })
-            .then(res => {
-                console.log(res.data);
-                fetchScores();
+        if (username !== '') {
+            axios.post('http://localhost:4001/scores/create', {
+                username: username,
+                time: time,
+                difficulty: difficultyLevel
             })
-            .catch(error => console.error(`There was an error creating the score: ${error}`));
+                .then(res => {
+                    console.log(res.data);
+                    fetchScores();
+                })
+                .catch(error => console.error(`There was an error creating the score: ${error}`));
+        }
     }
 
     function handleDeleteScore(score_id) {

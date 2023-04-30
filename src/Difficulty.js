@@ -25,7 +25,7 @@ export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution,
 
     return (
         <div>
-            <div className="center-div">
+            <div className="pb-2 center-div">
                 <Button 
                     variant="success" 
                     onClick={ handleShowGameOptions } 
@@ -77,7 +77,7 @@ export default function Difficulty({ onGenerate, onInitialize, onUpdateSolution,
                     />
                 </Modal.Body>
             </Modal>
-            <div className="py-3">
+            <div className="py-2 center-div">
                 <Button 
                     variant="warning" 
                     onClick={ handleShowTutorial } 
