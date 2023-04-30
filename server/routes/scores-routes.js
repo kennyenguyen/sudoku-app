@@ -6,15 +6,6 @@ const router = express.Router();
 // GET request '/scores/all'
 router.get('/all', scoresRoutes.getAllScores);
 
-// GET request '/scores/easy'
-router.get('/easy', scoresRoutes.getEasyScores);
-
-// GET request '/scores/medium'
-router.get('/medium', scoresRoutes.getMediumScores);
-
-// GET request '/scores/hard'
-router.get('/hard', scoresRoutes.getHardScores);
-
 // POST request '/scores/create'
 router.post('/create', scoresRoutes.createScore);
 
@@ -25,3 +16,14 @@ router.put('/delete', scoresRoutes.deleteScore);
 router.put('/reset', scoresRoutes.deleteAllScores);
 
 module.exports = router;
+
+// Unused routes ==============================================================
+
+// // GET request '/scores/easy'
+// router.get('/easy', scoresRoutes.getEasyScores);
+
+// // GET request '/scores/medium'
+// router.get('/medium', scoresRoutes.getMediumScores);
+
+// // GET request '/scores/hard'
+// router.get('/hard', scoresRoutes.getHardScores);

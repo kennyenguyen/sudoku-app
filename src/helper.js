@@ -224,5 +224,8 @@ export function completed_board(board, solvedBoard) {
             }
         }
     }
+    if (board.every(row => row.every(cell => cell === 0))) {
+        return false;
+    }
     return true;
 }

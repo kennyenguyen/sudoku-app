@@ -11,11 +11,11 @@ import NumberDisplay from "./NumberDisplay";
 import Controls from "./Controls";
 import Timer from "./Timer";
 import Leaderboard from './Leaderboard';
+import { completed_board } from './helper';
 
 /*
 TODO:
 - 3-2-1 countdown every new game before timer starts
-- app freezes when pressing 'D' on leaderboard screen (!!) 
 */
 
 export default function Game() {
@@ -149,25 +149,27 @@ export default function Game() {
 
     useEffect(() => {
         function handleKeyDown(e) {
-            if (!isNaN(e.key)) {
-                const num = Number(e.key);
-                if (1 <= num && num <= 9 && counter.get(num) !== 9) {
+            if (!completed_board(board, solvedBoard)) {
+                if (!isNaN(e.key)) {
+                    const num = Number(e.key);
+                    if (1 <= num && num <= 9 && counter.get(num) !== 9) {
+                        setSelected(num);
+                    }
+                } else if (e.key === 'd' || e.key === 'D' || e.key === 'ArrowRight') {
+                    let num = (selected % 9) + 1;
+                    while (counter.get(num) === 9) {
+                        num = (num % 9) + 1;
+                    }
                     setSelected(num);
+                } else if (e.key === 'a' || e.key === 'A' || e.key === 'ArrowLeft') {
+                    let num = ((selected + 7) % 9) + 1;
+                    while (counter.get(num) === 9) {
+                        num = ((num + 7) % 9) + 1;
+                    }
+                    setSelected(num);
+                } else if (e.key === 'Backspace') {
+                    handleUndo();
                 }
-            } else if (e.key === 'd' || e.key === 'D' || e.key === 'ArrowRight') {
-                let num = (selected % 9) + 1;
-                while (counter.get(num) === 9) {
-                    num = (num % 9) + 1;
-                }
-                setSelected(num);
-            } else if (e.key === 'a' || e.key === 'A' || e.key === 'ArrowLeft') {
-                let num = ((selected + 7) % 9) + 1;
-                while (counter.get(num) === 9) {
-                    num = ((num + 7) % 9) + 1;
-                }
-                setSelected(num);
-            } else if (e.key === 'Backspace') {
-                handleUndo();
             }
         }
         document.addEventListener("keydown", handleKeyDown);
