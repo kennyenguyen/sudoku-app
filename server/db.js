@@ -27,7 +27,7 @@ knex.schema
         }
     })
     .then(() => {
-        console.log('Success');
+        console.log('Database setup successful.');
     })
     .catch((error) => {
         console.error(`There was an error setting up the database: ${error}`);

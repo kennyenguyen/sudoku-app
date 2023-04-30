@@ -13,17 +13,9 @@ import Timer from "./Timer";
 import Leaderboard from './Leaderboard';
 
 /*
-easy = 38 clues given
-medium = 30 clues given
-hard = 27 clues given
-expert = 24 clues given (??)
-nightmare = 25 clues given (??)
-*/
-
-/*
 TODO:
 - 3-2-1 countdown every new game before timer starts
-- db table: score_id, username, time, difficulty
+- create controller methods for fetching easy/medium/hard scores
 */
 
 export default function Game() {
